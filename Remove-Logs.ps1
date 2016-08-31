@@ -19,19 +19,23 @@ Function Remove-Logs{
 #Parameters
 Param
 (
+    #Check to see if there are any invalid characters in the path
     [ValidateScript({
             If ((Split-Path $_ -Leaf).IndexOfAny([io.path]::GetInvalidFileNameChars()) -ge 0) {
                 Throw "$(Split-Path $_ -Leaf) contains invalid characters!"
             } Else {$True}
         })][string]$FilePath,
-    [datetime]$Cutoff,
+    #You can only delete logs older than 1 day
+    [ValidateRange(1,365)][int]$Cutoff,
+    #Check to see if there are any invalid characters in the path
     [ValidateScript({
             If ((Split-Path $_ -Leaf).IndexOfAny([io.path]::GetInvalidFileNameChars()) -ge 0) {
                 Throw "$(Split-Path $_ -Leaf) contains invalid characters!"
             } Else {$True}
         })]
     [string]$LogPath,
-    [string]$FileExtension ="*.*"
+    #you can only delete log and txt files
+    [ValidateSet("*.log","*.txt")][string]$FileExtension ="*.*"
     
 )
 
