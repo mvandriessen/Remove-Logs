@@ -16,11 +16,31 @@ UPDATE in V1.0
 
 Function Remove-Logs{ 
 [Cmdletbinding()]
+#Parameters
 Param
 (
-    [string]$Path,
+    [string]$FilePath,
     [datetime]$Cutoff
 )
 
-	Get-ChildItem -Path $Path | Where-Object{$_.LastWriteTime -lt $Cutoff} | Remove-Item
+    #Check if the path exists
+    if(-not (Test-Path $FilePath))
+    {
+        throw "Invalid path! Please make sure you enter a valid path."
+    }
+
+    $LogFiles = Get-ChildItem -Path $FilePath | Where-Object{$_.LastWriteTime -lt $Cutoff}
+    if($LogFiles)
+    {
+        foreach($LogFile in $LogFiles)
+        {
+            $LogFile | Remove-Item
+            Write-Host "Removing file $LogFile" -ForegroundColor Green
+        }
+    }
+    else 
+    {
+        Write-Host "No files were found." -ForegroundColor Red
+    }
+
 }
