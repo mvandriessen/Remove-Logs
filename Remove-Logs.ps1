@@ -19,9 +19,20 @@ Function Remove-Logs{
 #Parameters
 Param
 (
-    [string]$FilePath,
+    [ValidateScript({
+            If ((Split-Path $_ -Leaf).IndexOfAny([io.path]::GetInvalidFileNameChars()) -ge 0) {
+                Throw "$(Split-Path $_ -Leaf) contains invalid characters!"
+            } Else {$True}
+        })][string]$FilePath,
     [datetime]$Cutoff,
-    [string]$LogPath
+    [ValidateScript({
+            If ((Split-Path $_ -Leaf).IndexOfAny([io.path]::GetInvalidFileNameChars()) -ge 0) {
+                Throw "$(Split-Path $_ -Leaf) contains invalid characters!"
+            } Else {$True}
+        })]
+    [string]$LogPath,
+    [string]$FileExtension ="*.*"
+    
 )
 
     #Check if the file & log path exist
@@ -35,7 +46,7 @@ Param
     }
 
     #Get all items inside the path
-    $LogFiles = Get-ChildItem -Path $FilePath | Where-Object{$_.LastWriteTime -lt $Cutoff}
+    $LogFiles = Get-ChildItem -Path $FilePath -Filter $FileExtension | Where-Object{$_.LastWriteTime -lt $Cutoff}
     $DeletedItems = @()
     if($LogFiles)
     {
