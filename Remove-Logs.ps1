@@ -49,8 +49,11 @@ Param
         throw "Invalid log path! Please make sure you enter a valid path."
     }
 
+    #
+    $CutOffDate = (Get-Date).AddDays(-$Cutoff)
+
     #Get all items inside the path
-    $LogFiles = Get-ChildItem -Path $FilePath -Filter $FileExtension | Where-Object{$_.LastWriteTime -lt $Cutoff}
+    $LogFiles = Get-ChildItem -Path $FilePath -Filter $FileExtension | Where-Object{$_.LastWriteTime -lt $CutOffDate}
     $DeletedItems = @()
     if($LogFiles)
     {
@@ -63,8 +66,8 @@ Param
         }
         if($LogPath)
         {
-            $LogName = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-            $DeletedItems | select Name,creationtime,lastwritetime | Export-Csv -path "$LogPath\DeletedLogs - $logname.csv" -Delimiter ";" -NoTypeInformation
+            $LogName = Get-Date -Format "yyyy-MM-dd"          
+            $DeletedItems | select Name,creationtime,lastwritetime | Export-Csv -path "$LogPath\DeletedLogs - $LogName.csv" -Delimiter ";" -NoTypeInformation -Append
         }
     }
     else 
