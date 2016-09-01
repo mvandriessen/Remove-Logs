@@ -31,6 +31,8 @@ Param
     [ValidateScript({
             If ((Split-Path $_ -Leaf).IndexOfAny([io.path]::GetInvalidFileNameChars()) -ge 0) {
                 Throw "$(Split-Path $_ -Leaf) contains invalid characters!"
+            } Elseif(-Not ($_.EndsWith('\'))){
+                Throw "Logpath must end with \ !"
             } Else {$True}
         })]
     [string]$LogPath,
