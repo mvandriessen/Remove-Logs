@@ -17,8 +17,8 @@ Function Remove-Logs{
 .PARAMETER LogPath
   Where do you want to store the log file. Path must end with a \
 .PARAMETER FileExtension
-  Specify whether you want to delete *.log or *.txt files. If left blank, the function will delete both.
-  Must be written as *.log or *.txt
+  Specify whether you want to delete *.log, *.etl or *.txt files. If left blank, the function will delete both.
+  Must be written as *.log, *.etl or *.txt
 .EXAMPLE
   Remove-Logs -FilePath C:\inetpub\ -Cutoff 30 -LogPath c:\temp\
   
@@ -59,7 +59,7 @@ Param
         })]
     [string]$LogPath,#>
     #you can only delete log and txt files
-    [ValidateSet("*.log","*.txt")][string]$FileExtension ="*.*"
+    [ValidateSet("*.log","*.txt","*.etl")][string]$FileExtension ="*.*"
     
 )
 
