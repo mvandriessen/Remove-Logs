@@ -50,14 +50,6 @@ Param
             } Else {$True}
         })]$LogPath="",  
     
-    <#[ValidateScript({
-           If((Split-Path $_ -Leaf).IndexOfAny([io.path]::GetInvalidFileNameChars()) -ge 0) {
-                Throw "$(Split-Path $_ -Leaf) contains invalid characters!"
-            } Elseif(-Not ($_.EndsWith('\'))){
-                Throw "Logpath must end with \ !"
-            } Else {write-host $_ $True}
-        })]
-    [string]$LogPath,#>
     #you can only delete log and txt files
     [ValidateSet("*.log","*.txt","*.etl")][string]$FileExtension ="*.*"
     
