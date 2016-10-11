@@ -24,7 +24,7 @@ Function Remove-Logs{
   
   Delete all txt and log files older than 30 days from the c:\inetpub folder and write the log to c:\reports
 .EXAMPLE
-  Remove-Logs -FilePath C:\inetpub\ -Cutoff 20 -LogPath c:\temp\ -Filter *.txt
+  Remove-Logs -FilePath C:\inetpub\ -Cutoff 20 -LogPath c:\temp\ -FileExtension *.txt
   
   Delete all txt files older than 20 days from the c:\inetpub folder and write the log to c:\reports
 #>
