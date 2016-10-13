@@ -84,7 +84,7 @@ Param
         if($LogPath)
         {
             $LogName = Get-Date -Format "yyyy-MM-dd"          
-            $DeletedItems | select Name,creationtime,lastwritetime | Export-Csv -path "$LogPath\DeletedLogs - $LogName.csv" -Delimiter ";" -NoTypeInformation -Append
+            $DeletedItems | select FullName,creationtime,lastwritetime | Export-Csv -path "$LogPath\DeletedLogs - $LogName.csv" -Delimiter ";" -NoTypeInformation -Append
         }
     }
     else 
